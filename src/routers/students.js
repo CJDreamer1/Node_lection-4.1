@@ -1,28 +1,44 @@
+import { Router } from "express";
+
+import {
+  getStudentsController,
+  getStudentByIdController,
+  createStudentController,
+  deleteStudentController,
+  upsertStudentController,
+  patchStudentController,
+} from "../controllers/students.js";
+import { ctrlWrapper } from "../utils/ctrlWrapper.js";
 import { validateBody } from "../middlewares/validateBody.js";
 import {
   createStudentSchema,
   updateStudentSchema,
 } from "../validation/students.js";
-import { isValidId } from "../middlewares/isValidId.js";
 
-/* Решта коду файла */
+const router = Router();
 
-router.get("/:studentId", isValidId, ctrlWrapper(getStudentByIdController));
+router.get("/", ctrlWrapper(getStudentsController));
+
+router.get("/:studentId", ctrlWrapper(getStudentByIdController));
 
 router.post(
-  "/",
+  "/register",
   validateBody(createStudentSchema),
   ctrlWrapper(createStudentController)
 );
 
+router.delete("/:studentId", ctrlWrapper(deleteStudentController));
+
 router.put(
-  "/students/:studentId",
+  "/:studentId",
   validateBody(createStudentSchema),
   ctrlWrapper(upsertStudentController)
 );
 
 router.patch(
-  "/students/:studentId",
+  "/:studentId",
   validateBody(updateStudentSchema),
   ctrlWrapper(patchStudentController)
 );
+
+export default router;
