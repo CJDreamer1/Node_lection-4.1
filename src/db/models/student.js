@@ -25,6 +25,7 @@ const studentsSchema = new Schema(
       default: false,
     },
     parentId: { type: Schema.Types.ObjectId, ref: "users" }, // нова властивість
+    photo: { type: String }, //можливість додавання фото
   },
   {
     timestamps: true,
